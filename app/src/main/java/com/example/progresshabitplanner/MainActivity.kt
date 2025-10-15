@@ -2,18 +2,45 @@ package com.example.progresshabitplanner
 
 import android.os.Bundle
 import android.util.Log
+import com.example.progresshabitplanner.databinding.ActivitySplashBinding
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.fragment.NavHostFragment
+import android.os.Handler
+import android.os.Looper
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivityTag"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // setContentView(R.layout.activity_splash)
-        Log.d(TAG, "onCreate: Activity created.")
+
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // NavController lekérése a NavHostFragment-ből
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment //
+        val navController = navHostFragment.navController // [cite: 181]
+
+        // Top-level célpontok definiálása az ActionBar-hoz (pl. hogy ne jelenjen meg a 'vissza' nyíl)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.homeFragment, R.id.profileFragment) //
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration) //
+
+        // BottomNavigationView összekapcsolása a NavController-rel
+        binding.bottomNav.setupWithNavController(navController) //
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     override fun onStart() {
