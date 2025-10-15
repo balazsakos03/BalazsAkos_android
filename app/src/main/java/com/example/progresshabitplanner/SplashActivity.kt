@@ -1,19 +1,39 @@
 package com.example.progresshabitplanner
 
+import android.content.Intent
+import com.example.progresshabitplanner.databinding.ActivitySplashBinding
 import android.os.Bundle
 import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
-    private val TAG = "MainActivityTag"
+
+class SplashActivity : AppCompatActivity() {
+
+    private val TAG = "SplashActivityTag"
+    private val SPLASH_TIME_OUT: Long = 2000
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // setContentView(R.layout.activity_splash)
+
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         Log.d(TAG, "onCreate: Activity created.")
+
+        // Időzített futtatás
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Navigálás a MainActivity-re
+            val intent = Intent(this@SplashActivity, MainActivity::class.java)
+            startActivity(intent)
+
+            // Bezárjuk a SplashActivity-t, hogy ne lehessen visszalépni
+            finish()
+        }, SPLASH_TIME_OUT)
     }
 
     override fun onStart() {
