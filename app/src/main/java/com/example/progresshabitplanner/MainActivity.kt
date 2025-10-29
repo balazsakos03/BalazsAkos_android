@@ -2,17 +2,13 @@ package com.example.progresshabitplanner
 
 import android.os.Bundle
 import android.util.Log
-import com.example.progresshabitplanner.databinding.ActivitySplashBinding
-import androidx.activity.enableEdgeToEdge
+import com.example.progresshabitplanner.databinding.ActivityMainBinding
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
-import android.os.Handler
-import android.os.Looper
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivityTag"

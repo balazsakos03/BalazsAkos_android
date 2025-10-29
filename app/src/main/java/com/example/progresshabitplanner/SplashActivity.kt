@@ -6,12 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-
-
 class SplashActivity : AppCompatActivity() {
 
     private val TAG = "SplashActivityTag"
