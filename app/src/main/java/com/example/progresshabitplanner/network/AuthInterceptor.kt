@@ -1,8 +1,7 @@
-package network
+package com.example.progresshabitplanner.network
 
 import android.content.Context
 import com.example.progresshabitplanner.utils.SessionManager
-import com.google.android.gms.cast.framework.SessionManager
 import okhttp3.Interceptor
 import okhttp3.Response
 

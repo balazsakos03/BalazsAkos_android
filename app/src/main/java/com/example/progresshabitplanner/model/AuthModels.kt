@@ -1,4 +1,4 @@
-package model
+package com.example.progresshabitplanner.model
 
 data class User(
     val id: String,

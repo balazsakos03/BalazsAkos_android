@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         // NavController lekérése a NavHostFragment-ből
         val navHostFragment = supportFragmentManager
