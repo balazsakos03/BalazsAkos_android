@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:orientation="vertical"
-              android:padding="24dp"
-              tools:context=".HomeFragment">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".HomeFragment">
 
+    <!-- Üdvözlő szöveg -->
     <TextView
             android:id="@+id/tvWelcome"
             android:layout_width="wrap_content"
@@ -15,12 +17,58 @@
             android:text="Welcome to Progress Habit Planner!"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginBottom="20dp"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp" />
 
+    <!-- Profil gomb -->
     <Button
             android:id="@+id/btnGoToProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Go to Profile" />
+            android:text="Go to Profile"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp" />
+
+    <!-- Üres üzenet a schedule-höz -->
+    <TextView
+            android:id="@+id/tvNoSchedules"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No schedules for today"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"/>
+
+    <!-- RecyclerView az ütemezésekhez -->
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewSchedules"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            tools:listitem="@layout/item_home_schedule"/>
+
+    <!-- CÍM a habitekhez -->
+    <TextView
+            android:id="@+id/tvHabitsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Habits"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp" />
+
+    <!-- RecyclerView a habitekhez -->
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHabits"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            tools:listitem="@layout/item_habit" />
 
 </LinearLayout>

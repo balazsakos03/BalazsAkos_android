@@ -12,7 +12,10 @@ class SessionManager(context: Context) {
     }
 
     fun saveAuthToken(token: String) {
-        prefs.edit().putString(KEY_AUTH_TOKEN, token).apply()
+        val editor = prefs.edit()
+        editor.putString("access_token", token)
+        editor.apply()
+        android.util.Log.d("SessionManager", "saveAuthToken: $token")
     }
 
     fun fetchAuthToken(): String? {
