@@ -4,6 +4,7 @@ import com.example.progresshabitplanner.model.AuthRequest
 import com.example.progresshabitplanner.model.AuthResponse
 import com.example.progresshabitplanner.model.HabitResponse
 import com.example.progresshabitplanner.model.ScheduleResponse
+import com.example.progresshabitplanner.model.CreateHabitRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -33,4 +34,8 @@ interface ApiService {
     @GET("/habit")
     suspend fun getAllHabits(): List<HabitResponse>
 
+    @POST("/habit")
+    suspend fun createHabit(
+        @Body request: CreateHabitRequest
+    ): HabitResponse
 }

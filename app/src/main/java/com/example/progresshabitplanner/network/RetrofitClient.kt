@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder
 import java.time.LocalDateTime
 
 object RetrofitClient {
-    private const val BASE_URL = " https://unreined-kathleen-untutelary.ngrok-free.dev"
+    private const val BASE_URL = "https://unreined-kathleen-untutelary.ngrok-free.dev"
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getInstance(context: Context): ApiService {

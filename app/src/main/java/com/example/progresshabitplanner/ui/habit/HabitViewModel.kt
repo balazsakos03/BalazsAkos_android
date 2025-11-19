@@ -19,6 +19,9 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
+    private val _createResult = MutableLiveData<Result<HabitResponse>>()
+    val createResult: LiveData<Result<HabitResponse>> = _createResult
+
     fun loadHabits() {
         viewModelScope.launch {
             try {
@@ -26,6 +29,19 @@ class HabitViewModel(application: Application) : AndroidViewModel(application) {
                 _habits.postValue(result)
             } catch (e: Exception) {
                 _error.postValue("Failed to load habits: ${e.message}")
+            }
+        }
+    }
+
+    fun createHabit(name: String, description: String, categoryId: Int, goal: String){
+        viewModelScope.launch {
+            try{
+                val result = repository.createHabit(name, description, categoryId, goal)
+                _createResult.postValue(Result.success(result))
+                _error.postValue(null)
+            }catch(e: Exception){
+                _createResult.postValue(Result.failure(e))
+                _error.postValue("Failed to create habit: ${e.message}")
             }
         }
     }

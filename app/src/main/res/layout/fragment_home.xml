@@ -61,6 +61,13 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="8dp" />
 
+    <Button
+            android:id="@+id/btnAddHabit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Habit"
+            android:layout_marginBottom="8dp" />
+
     <!-- RecyclerView a habitekhez -->
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvHabits"

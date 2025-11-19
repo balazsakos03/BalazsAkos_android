@@ -33,6 +33,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
         }
 
+        // Gomb az új habit létrehozásához
+        binding.btnAddHabit.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_addHabitFragment)
+        }
+
         // Megfigyeljük a habit listát
         viewModel.habits.observe(viewLifecycleOwner) { habits ->
             if (habits.isEmpty()) {

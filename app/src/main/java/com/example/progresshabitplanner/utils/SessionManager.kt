@@ -8,12 +8,12 @@ class SessionManager(context: Context) {
         context.getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
 
     companion object {
-        private const val KEY_AUTH_TOKEN = "auth_token"
+        private const val KEY_AUTH_TOKEN = "access_token"
     }
 
     fun saveAuthToken(token: String) {
         val editor = prefs.edit()
-        editor.putString("access_token", token)
+        editor.putString(KEY_AUTH_TOKEN, token)
         editor.apply()
         android.util.Log.d("SessionManager", "saveAuthToken: $token")
     }

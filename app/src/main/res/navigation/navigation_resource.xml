@@ -1,41 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/navigation_resource"
-app:startDestination="@id/loginFragment">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/navigation_resource"
+            app:startDestination="@id/loginFragment">
 
-<fragment android:id="@+id/loginFragment"
-android:name="com.example.progresshabitplanner.LoginFragment"
-android:label="fragment_login"
-tools:layout="@layout/fragment_login">
-<action android:id="@+id/action_loginFragment_to_homeFragment"
-app:destination="@id/homeFragment"/>
-<action android:id="@+id/action_loginFragment_to_registerFragment"
-app:destination="@id/registerFragment"/>
-</fragment>
+    <!-- LOGIN -->
+    <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.example.progresshabitplanner.LoginFragment"
+            android:label="Login"
+            tools:layout="@layout/fragment_login">
 
-<fragment android:id="@+id/registerFragment"
-android:name="com.example.progresshabitplanner.RegisterFragment"
-android:label="fragment_register"
-tools:layout="@layout/fragment_register">
-<action android:id="@+id/action_registerFragment_to_loginFragment"
-app:destination="@id/loginFragment"/>
-</fragment>
+        <action
+                android:id="@+id/action_loginFragment_to_registerFragment"
+                app:destination="@id/registerFragment" />
 
-<fragment android:id="@+id/homeFragment"
-android:name="com.example.progresshabitplanner.HomeFragment"
-android:label="fragment_home"
-tools:layout="@layout/fragment_home">
-<action android:id="@+id/action_homeFragment_to_profileFragment"
-app:destination="@id/profileFragment"/>
-</fragment>
+        <action
+                android:id="@+id/action_loginFragment_to_homeFragment"
+                app:destination="@id/homeFragment" />
+    </fragment>
 
-<fragment android:id="@+id/profileFragment"
-android:name="com.example.progresshabitplanner.ProfileFragment"
-android:label="fragment_profile"
-tools:layout="@layout/fragment_profile">
-<action android:id="@+id/action_profileFragment_to_homeFragment"
-app:destination="@id/homeFragment"/>
-</fragment>
+    <!-- REGISTER -->
+    <fragment
+            android:id="@+id/registerFragment"
+            android:name="com.example.progresshabitplanner.RegisterFragment"
+            android:label="Register"
+            tools:layout="@layout/fragment_register">
+
+        <action
+                android:id="@+id/action_registerFragment_to_loginFragment"
+                app:destination="@id/loginFragment" />
+    </fragment>
+
+    <!-- HOME -->
+    <fragment
+            android:id="@+id/homeFragment"
+            android:name="com.example.progresshabitplanner.HomeFragment"
+            android:label="Home"
+            tools:layout="@layout/fragment_home">
+
+        <action
+                android:id="@+id/action_homeFragment_to_profileFragment"
+                app:destination="@id/profileFragment" />
+
+        <!-- Új habit létrehozása -->
+        <action
+                android:id="@+id/action_homeFragment_to_addHabitFragment"
+                app:destination="@id/addHabitFragment" />
+
+        <!-- Ütemezés részletek (később megírjuk) -->
+        <action
+                android:id="@+id/action_homeFragment_to_scheduleDetailFragment"
+                app:destination="@id/scheduleDetailFragment" />
+    </fragment>
+
+    <!-- PROFILE -->
+    <fragment
+            android:id="@+id/profileFragment"
+            android:name="com.example.progresshabitplanner.ProfileFragment"
+            android:label="Profile"
+            tools:layout="@layout/fragment_profile">
+
+        <action
+                android:id="@+id/action_profileFragment_to_homeFragment"
+                app:destination="@id/homeFragment" />
+    </fragment>
+
+    <!-- ADD HABIT (Új) -->
+    <fragment
+            android:id="@+id/addHabitFragment"
+            android:name="com.example.progresshabitplanner.AddHabitFragment"
+            android:label="Add Habit"
+            tools:layout="@layout/fragment_add_habit">
+
+        <action
+                android:id="@+id/action_addHabitFragment_to_homeFragment"
+                app:destination="@id/homeFragment" />
+    </fragment>
+
+    <!-- SCHEDULE DETAIL (előre létrehozva) -->
+    <fragment
+            android:id="@+id/scheduleDetailFragment"
+            android:name="com.example.progresshabitplanner.ScheduleDetailFragment"
+            android:label="Schedule Detail"
+            tools:layout="@layout/fragment_schedule_detail">
+
+        <argument
+                android:name="scheduleId"
+                app:argType="integer" />
+
+        <action
+                android:id="@+id/action_scheduleDetailFragment_to_homeFragment"
+                app:destination="@id/homeFragment" />
+    </fragment>
+
 </navigation>

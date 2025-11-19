@@ -3,6 +3,7 @@ package com.example.progresshabitplanner.repository
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.progresshabitplanner.model.CreateHabitRequest
 import com.example.progresshabitplanner.model.HabitResponse
 import com.example.progresshabitplanner.network.RetrofitClient
 
@@ -12,5 +13,20 @@ class HabitRepository(context: Context) {
 
     suspend fun getAllHabits(): List<HabitResponse> {
         return api.getAllHabits()
+    }
+
+    suspend fun createHabit(
+        name: String,
+        description: String,
+        categoryId: Int,
+        goal: String
+    ): HabitResponse {
+        val request = CreateHabitRequest(
+            name = name,
+            description = description,
+            categoryId = categoryId,
+            goal = goal
+        )
+        return api.createHabit(request)
     }
 }
