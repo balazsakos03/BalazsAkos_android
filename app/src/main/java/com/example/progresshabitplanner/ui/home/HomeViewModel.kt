@@ -19,15 +19,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun loadTodaySchedules() {
         viewModelScope.launch {
+            val today = LocalDate.now().toString() // 2025-11-21
             try {
-                val today = LocalDate.now().toString()
                 val result = repository.getScheduleByDay(today)
                 _schedules.postValue(result)
-                _error.postValue(null)
             } catch (e: Exception) {
-                _error.postValue("Failed to load schedules: ${e.message}")
+                _schedules.postValue(emptyList())
             }
         }
     }

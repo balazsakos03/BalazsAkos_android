@@ -44,9 +44,16 @@ class ScheduleDetailFragment : Fragment() {
         viewModel.loadSchedule(scheduleId)
 
         viewModel.schedule.observe(viewLifecycleOwner) { schedule ->
-            binding.tvTitle.text = schedule.habit.title
-            binding.tvTime.text =
-                "${schedule.startTime ?: "-"} - ${schedule.endTime ?: "-"}"
+
+            // Habit title (name)
+            binding.tvTitle.text = schedule.habit.name
+
+            // Format time (HH:mm)
+            val start = schedule.start_time.substring(11, 16)
+            val end = schedule.end_time.substring(11, 16)
+            binding.tvTime.text = "${schedule.start_time} - ${schedule.end_time}"
+
+            // Notes
             binding.tvNotes.text = schedule.notes ?: "No notes"
         }
 

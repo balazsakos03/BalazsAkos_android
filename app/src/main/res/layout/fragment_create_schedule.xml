@@ -11,6 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+        <!-- TITLE -->
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -18,57 +19,107 @@
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:textColor="@color/textPrimary"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="20dp"/>
 
-        <EditText
-                android:id="@+id/etHabitId"
-                android:hint="Habit ID"
-                android:inputType="number"
+        <!-- HABIT SELECTOR -->
+        <TextView
+                android:text="Select Habit"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/textPrimary"
+                android:layout_marginBottom="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <Spinner
+                android:id="@+id/spinnerHabit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="20dp"/>
+
+        <!-- DATE PICKER -->
+        <TextView
+                android:text="Date"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/textPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"/>
 
         <EditText
                 android:id="@+id/etDate"
-                android:hint="Date (YYYY-MM-DDTHH:MM)"
+                android:hint="Choose date"
+                android:focusable="false"
+                android:clickable="true"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:textColor="@color/textPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="20dp"/>
+
+        <!-- START TIME -->
+        <TextView
+                android:text="Start Time"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/textPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"/>
 
         <EditText
                 android:id="@+id/etStart"
-                android:hint="Start time (YYYY-MM-DDTHH:MM)"
+                android:hint="Choose start time"
+                android:focusable="false"
+                android:clickable="true"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:textColor="@color/textPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="20dp"/>
+
+        <!-- END TIME -->
+        <TextView
+                android:text="End Time"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/textPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"/>
 
         <EditText
                 android:id="@+id/etEnd"
-                android:hint="End time (YYYY-MM-DDTHH:MM)"
+                android:hint="Choose end time"
+                android:focusable="false"
+                android:clickable="true"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:textColor="@color/textPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="20dp"/>
 
-        <EditText
-                android:id="@+id/etDuration"
-                android:hint="Duration minutes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"/>
-
+        <!-- NOTES -->
         <EditText
                 android:id="@+id/etNotes"
                 android:hint="Notes"
-                android:minLines="2"
+                android:minLines="3"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:textColor="@color/textPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="24dp"/>
 
+        <!-- BUTTONS -->
         <Button
                 android:id="@+id/btnCustomSchedule"
                 style="@style/TurquoiseButton"
                 android:text="Create Custom Schedule"
-                android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -76,7 +127,7 @@
                 android:id="@+id/btnRecurringSchedule"
                 style="@style/TurquoiseButton"
                 android:text="Create Recurring Schedule"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -84,7 +135,7 @@
                 android:id="@+id/btnWeekdaySchedule"
                 style="@style/TurquoiseButton"
                 android:text="Create Weekday Schedule"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

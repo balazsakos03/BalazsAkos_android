@@ -26,9 +26,14 @@ class HomeScheduleAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.binding.tvHabitTitle.text = item.habit.title
-        holder.binding.tvTime.text = "${item.startTime ?: "-"} - ${item.endTime ?: "-"}"
+
+        holder.binding.tvHabitTitle.text = item.habit.name
+
+        holder.binding.tvTime.text =
+            "${item.start_time.substring(11, 16)} - ${item.end_time.substring(11, 16)}"
+
         holder.binding.tvNotes.text = item.notes ?: ""
+
         holder.itemView.setOnClickListener { view ->
             val bundle = Bundle().apply {
                 putInt("scheduleId", item.id)
