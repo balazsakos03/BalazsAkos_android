@@ -1,9 +1,40 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.ProgressHabitPlanner" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Theme.ProgressHabitPlanner" parent="Theme.Material3.Light.NoActionBar">
+
+        <!-- Colors -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <!-- Background -->
+        <item name="android:windowBackground">@color/backgroundLight</item>
+
+        <!-- Font -->
+        <item name="android:fontFamily">@font/font_family</item>
+        <item name="fontFamily">@font/font_family</item>
+
+        <!-- Toolbar -->
+        <item name="toolbarStyle">@style/CustomToolbar</item>
+
+        <!-- Buttons -->
+        <item name="materialButtonStyle">@style/TurquoiseButton</item>
+
+        <!-- (CardView style törölve – nem támogatott!) -->
     </style>
 
-    <style name="Theme.ProgressHabitPlanner" parent="Base.Theme.ProgressHabitPlanner"/>
+
+    <!-- Toolbar -->
+    <style name="CustomToolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="titleTextColor">@android:color/white</item>
+    </style>
+
+    <!-- Button -->
+    <style name="TurquoiseButton" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="cornerRadius">20dp</item>
+    </style>
+
 </resources>

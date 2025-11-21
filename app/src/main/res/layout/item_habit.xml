@@ -3,20 +3,24 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
-              android:padding="8dp"
-              android:background="?attr/selectableItemBackground">
+              android:padding="12dp"
+              android:background="@color/cardBackground"
+              android:foreground="?attr/selectableItemBackground"
+              android:layout_marginVertical="4dp">
 
     <TextView
             android:id="@+id/tvHabitName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/textPrimary" />
 
     <TextView
             android:id="@+id/tvHabitDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
+            android:textColor="@color/textSecondary"
             android:layout_marginTop="4dp" />
 </LinearLayout>

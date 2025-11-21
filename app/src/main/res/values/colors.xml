@@ -1,5 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Primary turquoise -->
+    <color name="colorPrimary">#00C4B3</color>
+    <color name="colorPrimaryDark">#00A999</color>
+    <color name="colorAccent">#00C4B3</color>
+
+    <!-- Neutrals -->
+    <color name="backgroundLight">#F9F9F9</color>
+    <color name="cardBackground">#FFFFFF</color>
+    <color name="textPrimary">#1A1A1A</color>
+    <color name="textSecondary">#7A7A7A</color>
+
+    <!-- Subtle divider -->
+    <color name="dividerColor">#E4E4E4</color>
 </resources>

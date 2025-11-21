@@ -7,6 +7,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp"
+        android:background="@color/backgroundLight"
         tools:context=".HomeFragment">
 
     <!-- Üdvözlő szöveg -->
@@ -15,67 +16,138 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Welcome to Progress Habit Planner!"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold"
+            android:textColor="@color/textPrimary"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="8dp" />
 
     <!-- Profil gomb -->
     <Button
             android:id="@+id/btnGoToProfile"
+            style="@style/TurquoiseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Go to Profile"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp" />
 
-    <!-- Üres üzenet a schedule-höz -->
-    <TextView
-            android:id="@+id/tvNoSchedules"
-            android:layout_width="wrap_content"
+    <!-- KÁRTYA: Today's Schedule -->
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No schedules for today"
-            android:textSize="16sp"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="16dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/cardBackground">
 
-    <!-- RecyclerView az ütemezésekhez -->
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewSchedules"
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <!-- Fejléc + Add Schedule gomb egy sorban -->
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                <TextView
+                        android:id="@+id/tvSchedulesTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Today's Schedule"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/textPrimary" />
+
+                <Button
+                        android:id="@+id/btnAddSchedule"
+                        style="@style/TurquoiseButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add" />
+            </LinearLayout>
+
+            <!-- Üzenet, ha nincs schedule -->
+            <TextView
+                    android:id="@+id/tvNoSchedules"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No schedules for today"
+                    android:textSize="14sp"
+                    android:textColor="@color/textSecondary"
+                    android:layout_marginBottom="4dp"
+                    android:visibility="gone" />
+
+            <!-- Schedulök listája -->
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewSchedules"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingTop="4dp"
+                    tools:listitem="@layout/item_home_schedule" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- KÁRTYA: Your Habits -->
+    <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:clipToPadding="false"
-            android:padding="8dp"
-            tools:listitem="@layout/item_home_schedule"/>
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/cardBackground">
 
-    <!-- CÍM a habitekhez -->
-    <TextView
-            android:id="@+id/tvHabitsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your Habits"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="8dp" />
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-    <Button
-            android:id="@+id/btnAddHabit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Habit"
-            android:layout_marginBottom="8dp" />
+            <!-- Fejléc + Add Habit gomb egy sorban -->
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
 
-    <!-- RecyclerView a habitekhez -->
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvHabits"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:clipToPadding="false"
-            android:padding="8dp"
-            tools:listitem="@layout/item_habit" />
+                <TextView
+                        android:id="@+id/tvHabitsTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Your Habits"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/textPrimary" />
+
+                <Button
+                        android:id="@+id/btnAddHabit"
+                        style="@style/TurquoiseButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add" />
+            </LinearLayout>
+
+            <!-- Habits lista -->
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHabits"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingTop="4dp"
+                    tools:listitem="@layout/item_habit" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

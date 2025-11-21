@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="24dp"
+            android:background="@color/backgroundLight">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Habit Title"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/textPrimary"
+                android:layout_marginBottom="12dp"/>
+
+        <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start - End"
+                android:textColor="@color/textSecondary"
+                android:layout_marginBottom="8dp"/>
+
+        <TextView
+                android:id="@+id/tvNotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notes..."
+                android:textColor="@color/textPrimary"
+                android:layout_marginBottom="16dp"/>
+
+        <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete Schedule"
+                android:backgroundTint="#FF4444"
+                android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+</ScrollView>

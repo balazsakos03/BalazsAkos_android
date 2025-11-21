@@ -11,56 +11,69 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.progresshabitplanner.databinding.FragmentHomeBinding
 import com.example.progresshabitplanner.ui.habit.HabitAdapter
 import com.example.progresshabitplanner.ui.habit.HabitViewModel
+import com.example.progresshabitplanner.ui.home.HomeScheduleAdapter
+import com.example.progresshabitplanner.ui.home.HomeViewModel
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HabitViewModel by viewModels()
+
+    private val habitViewModel: HabitViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
 
-        // RecyclerView beállítása
-        val adapter = HabitAdapter(emptyList())
-        binding.recyclerViewSchedules.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewSchedules.adapter = adapter
+        val habitAdapter = HabitAdapter(emptyList())
+        binding.rvHabits.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvHabits.adapter = habitAdapter
 
-        // Gomb a profilra navigáláshoz
+        // Habitek megfigyelése
+        habitViewModel.habits.observe(viewLifecycleOwner) { habits ->
+            habitAdapter.updateData(habits)
+        }
+
+        val scheduleAdapter = HomeScheduleAdapter(emptyList())
+        binding.recyclerViewSchedules.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewSchedules.adapter = scheduleAdapter
+
+        // Schedulök megfigyelése
+        homeViewModel.schedules.observe(viewLifecycleOwner) { schedules ->
+            if (schedules.isNullOrEmpty()) {
+                binding.tvNoSchedules.visibility = View.VISIBLE
+                binding.recyclerViewSchedules.visibility = View.GONE
+            } else {
+                binding.tvNoSchedules.visibility = View.GONE
+                binding.recyclerViewSchedules.visibility = View.VISIBLE
+                scheduleAdapter.updateData(schedules)
+            }
+        }
+
+        // Schedule hibák
+        homeViewModel.error.observe(viewLifecycleOwner) { errorMsg ->
+            if (errorMsg != null) {
+                binding.tvNoSchedules.text = errorMsg
+                binding.tvNoSchedules.visibility = View.VISIBLE
+            }
+        }
+
         binding.btnGoToProfile.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
         }
 
-        // Gomb az új habit létrehozásához
         binding.btnAddHabit.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_addHabitFragment)
         }
 
-        // Megfigyeljük a habit listát
-        viewModel.habits.observe(viewLifecycleOwner) { habits ->
-            if (habits.isEmpty()) {
-                binding.tvNoSchedules.visibility = View.VISIBLE
-                binding.recyclerViewSchedules.visibility = View.GONE
-                binding.tvNoSchedules.text = "No habits yet"
-            } else {
-                binding.tvNoSchedules.visibility = View.GONE
-                binding.recyclerViewSchedules.visibility = View.VISIBLE
-                adapter.updateData(habits)
-            }
+        binding.btnAddSchedule.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_createScheduleFragment)
         }
 
-        // Hibák megjelenítése (pl. ha hálózati hiba van)
-        viewModel.error.observe(viewLifecycleOwner) {
-            if (it != null) {
-                binding.tvNoSchedules.text = it
-                binding.tvNoSchedules.visibility = View.VISIBLE
-            }
-        }
-
-        // Habitek lekérése
-        viewModel.loadHabits()
+        habitViewModel.loadHabits()
+        homeViewModel.loadTodaySchedules()
     }
 
     override fun onDestroyView() {

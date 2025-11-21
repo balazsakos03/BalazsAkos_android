@@ -53,6 +53,10 @@
         <action
                 android:id="@+id/action_homeFragment_to_scheduleDetailFragment"
                 app:destination="@id/scheduleDetailFragment" />
+
+        <action
+                android:id="@+id/action_homeFragment_to_createScheduleFragment"
+                app:destination="@id/createScheduleFragment" />
     </fragment>
 
     <!-- PROFILE -->
@@ -65,6 +69,21 @@
         <action
                 android:id="@+id/action_profileFragment_to_homeFragment"
                 app:destination="@id/homeFragment" />
+
+        <action
+                android:id="@+id/action_profileFragment_to_editProfileFragment"
+                app:destination="@id/editProfileFragment" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/editProfileFragment"
+            android:name="com.example.progresshabitplanner.EditProfileFragment"
+            android:label="Edit Profile"
+            tools:layout="@layout/fragment_edit_profile">
+
+        <action
+                android:id="@+id/action_editProfileFragment_to_profileFragment"
+                app:destination="@id/profileFragment" />
     </fragment>
 
     <!-- ADD HABIT (Új) -->
@@ -95,4 +114,15 @@
                 app:destination="@id/homeFragment" />
     </fragment>
 
+    <!-- SCHEDULE CREATE -->
+    <fragment
+            android:id="@+id/createScheduleFragment"
+            android:name="com.example.progresshabitplanner.CreateScheduleFragment"
+            android:label="Create Schedule"
+            tools:layout="@layout/fragment_create_schedule">
+
+        <action
+                android:id="@+id/action_createScheduleFragment_to_homeFragment"
+                app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

@@ -5,6 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progresshabitplanner.databinding.ItemHomeScheduleBinding
 import com.example.progresshabitplanner.model.ScheduleResponse
+import android.os.Bundle
+import androidx.navigation.findNavController
+import com.example.progresshabitplanner.R
+
 
 class HomeScheduleAdapter(
     private var items: List<ScheduleResponse>
@@ -25,6 +29,13 @@ class HomeScheduleAdapter(
         holder.binding.tvHabitTitle.text = item.habit.title
         holder.binding.tvTime.text = "${item.startTime ?: "-"} - ${item.endTime ?: "-"}"
         holder.binding.tvNotes.text = item.notes ?: ""
+        holder.itemView.setOnClickListener { view ->
+            val bundle = Bundle().apply {
+                putInt("scheduleId", item.id)
+            }
+            view.findNavController()
+                .navigate(R.id.action_homeFragment_to_scheduleDetailFragment, bundle)
+        }
     }
 
     fun updateData(newItems: List<ScheduleResponse>) {
