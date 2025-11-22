@@ -12,6 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.progresshabitplanner.databinding.FragmentScheduleDetailBinding
 import com.example.progresshabitplanner.ui.schedule.ScheduleDetailViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ScheduleDetailFragment : Fragment() {
@@ -44,30 +46,93 @@ class ScheduleDetailFragment : Fragment() {
         viewModel.loadSchedule(scheduleId)
 
         viewModel.schedule.observe(viewLifecycleOwner) { schedule ->
-
             // Habit title (name)
             binding.tvTitle.text = schedule.habit.name
 
-            // Format time (HH:mm)
-            val start = schedule.start_time.substring(11, 16)
-            val end = schedule.end_time.substring(11, 16)
-            binding.tvTime.text = "${schedule.start_time} - ${schedule.end_time}"
+            // Format time properly (HH:mm)
+            val startTime = formatTime(schedule.start_time)
+            val endTime = formatTime(schedule.end_time)
+            binding.tvTime.text = "$startTime - $endTime"
 
-            // Notes
-            binding.tvNotes.text = schedule.notes ?: "No notes"
+            // Format date
+            val scheduleDate = formatDate(schedule.date)
+            binding.tvDate.text = scheduleDate
+
+            // Duration
+            val duration = if (schedule.duration_minutes > 0) {
+                "Duration: ${schedule.duration_minutes} minutes"
+            } else {
+                "Duration: Not specified"
+            }
+            binding.tvDuration.text = duration
+
+            // Status
+            binding.tvStatus.text = "Status: ${schedule.status}"
+
+            // Schedule type
+            val scheduleType = if (schedule.is_custom) "Custom Schedule" else "Recurring Schedule"
+            binding.tvType.text = "Type: $scheduleType"
+
+            // Notes - show "No notes" if empty
+            binding.tvNotes.text = schedule.notes?.ifBlank { "No notes provided" } ?: "No notes provided"
         }
 
         binding.btnDelete.setOnClickListener {
-            viewModel.deleteSchedule(scheduleId)
+            // Show confirmation dialog before deleting
+            android.app.AlertDialog.Builder(requireContext())
+                .setTitle("Delete Schedule")
+                .setMessage("Are you sure you want to delete this schedule?")
+                .setPositiveButton("Delete") { _, _ ->
+                    viewModel.deleteSchedule(scheduleId)
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
         }
 
         viewModel.deleteResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                Toast.makeText(requireContext(), "Schedule deleted", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Schedule deleted successfully", Toast.LENGTH_LONG).show()
                 findNavController().navigateUp()
             }.onFailure { e ->
                 Toast.makeText(requireContext(), "Delete failed: ${e.message}", Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun formatTime(dateTimeString: String): String {
+        return try {
+            // Try to parse as ISO date time
+            if (dateTimeString.contains("T")) {
+                val timePart = dateTimeString.substringAfter("T").substringBefore(".")
+                if (timePart.length >= 5) timePart.substring(0, 5) else timePart
+            } else {
+                // Fallback: manual extraction
+                dateTimeString.substring(11, 16)
+            }
+        } catch (e: Exception) {
+            // Ultimate fallback - manual extraction
+            if (dateTimeString.length >= 16) {
+                dateTimeString.substring(11, 16)
+            } else {
+                dateTimeString
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun formatDate(dateString: String): String {
+        return try {
+            if (dateString.contains("T")) {
+                // Format as "November 22, 2025"
+                val date = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME)
+                date.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"))
+            } else {
+                dateString
+            }
+        } catch (e: Exception) {
+            // Fallback: just show the original string
+            dateString
         }
     }
 
