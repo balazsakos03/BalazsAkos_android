@@ -2,6 +2,7 @@ package com.example.progresshabitplanner
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -27,12 +28,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
 
+        Log.d("HomeFragment", "=== HOME FRAGMENT STARTED ===")
+
         val habitAdapter = HabitAdapter(emptyList())
         binding.rvHabits.layoutManager = LinearLayoutManager(requireContext())
         binding.rvHabits.adapter = habitAdapter
 
         // Habitek megfigyelése
         habitViewModel.habits.observe(viewLifecycleOwner) { habits ->
+            Log.d("HomeFragment", "Habits updated: ${habits.size} habits")
             habitAdapter.updateData(habits)
         }
 
@@ -42,10 +46,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // Schedulök megfigyelése
         homeViewModel.schedules.observe(viewLifecycleOwner) { schedules ->
+            Log.d("HomeFragment", "Schedules LiveData updated: ${schedules?.size ?: 0} schedules")
+
             if (schedules.isNullOrEmpty()) {
+                Log.d("HomeFragment", "No schedules - showing empty message")
                 binding.tvNoSchedules.visibility = View.VISIBLE
                 binding.recyclerViewSchedules.visibility = View.GONE
+                binding.tvNoSchedules.text = "No schedules for today"
             } else {
+                Log.d("HomeFragment", "Schedules found - updating UI with ${schedules.size} schedules")
                 binding.tvNoSchedules.visibility = View.GONE
                 binding.recyclerViewSchedules.visibility = View.VISIBLE
                 scheduleAdapter.updateData(schedules)
@@ -54,9 +63,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // Schedule hibák
         homeViewModel.error.observe(viewLifecycleOwner) { errorMsg ->
-            if (errorMsg != null) {
-                binding.tvNoSchedules.text = errorMsg
+            errorMsg?.let {
+                Log.e("HomeFragment", "Error received: $it")
+                binding.tvNoSchedules.text = it
                 binding.tvNoSchedules.visibility = View.VISIBLE
+                binding.recyclerViewSchedules.visibility = View.GONE
             }
         }
 
@@ -72,8 +83,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             findNavController().navigate(R.id.action_homeFragment_to_createScheduleFragment)
         }
 
+        // DEBUG: Hosszú kattintás a profil gombon
+        binding.btnGoToProfile.setOnLongClickListener {
+            Log.d("HomeFragment", "Debug button pressed - loading all schedules")
+            homeViewModel.loadAllSchedulesForDebug()
+            true
+        }
+
+        // Adatok betöltése
+        Log.d("HomeFragment", "Loading initial data...")
         habitViewModel.loadHabits()
         homeViewModel.loadTodaySchedules()
+
+        // DEBUG: Azonnal töltsük be az összes schedule-t is
+        homeViewModel.loadAllSchedulesForDebug()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onResume() {
+        super.onResume()
+        Log.d("HomeFragment", "onResume - refreshing data")
+        homeViewModel.loadTodaySchedules()
+        habitViewModel.loadHabits()
     }
 
     override fun onDestroyView() {

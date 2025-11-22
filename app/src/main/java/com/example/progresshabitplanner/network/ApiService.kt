@@ -34,6 +34,12 @@ interface ApiService {
     ): Response<AuthResponse>
 
     @GET("/schedule/day")
+    suspend fun getTodaySchedules(): List<ScheduleResponse>
+
+    @GET("/schedule")
+    suspend fun getAllSchedules(): List<ScheduleResponse>
+
+    @GET("/schedule/day")
     suspend fun getScheduleByDay(
         @Query("date") day: String
     ): List<ScheduleResponse>

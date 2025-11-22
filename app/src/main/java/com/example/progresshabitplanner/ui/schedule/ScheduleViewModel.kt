@@ -2,6 +2,7 @@ package com.example.progresshabitplanner.ui.schedule
 
 import android.app.Application
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.example.progresshabitplanner.model.*
@@ -31,11 +32,13 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
 
     fun createCustomSchedule(request: CreateCustomScheduleRequest) {
         viewModelScope.launch {
-            try{
+            try {
                 val result = repository.createCustomSchedule(request)
                 _createResult.postValue(Result.success(result))
-            }catch(e: Exception){
+                Log.d("ScheduleViewModel", "Schedule created: $result")
+            } catch (e: Exception) {
                 _createResult.postValue(Result.failure(e))
+                Log.e("ScheduleViewModel", "Schedule creation failed: ${e.message}", e)
             }
         }
     }
