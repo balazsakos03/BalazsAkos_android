@@ -1,35 +1,35 @@
 package com.example.progresshabitplanner
 
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.util.Base64
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.progresshabitplanner.data.UserPreferences
 import com.example.progresshabitplanner.databinding.FragmentEditProfileBinding
-import com.example.progresshabitplanner.utils.ImageSaver
+import com.example.progresshabitplanner.repository.ImageRepository
+import kotlinx.coroutines.launch
 import java.io.File
 
+@RequiresApi(Build.VERSION_CODES.O)
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     private var _binding: FragmentEditProfileBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var userPrefs: UserPreferences
-    private var localImagePath: String? = null
+    private lateinit var imageRepository: ImageRepository
 
-    // Képkiválasztó launcher
     private val pickImage = registerForActivityResult(
         ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let {
-            // Mentjük le az app saját mappájába
-            val savedPath = ImageSaver.saveImageFromUri(requireContext(), it)
-            if (savedPath != null) {
-                localImagePath = savedPath
-                binding.ivEditProfileImage.setImageURI(Uri.fromFile(File(savedPath)))
-            }
-        }
+    ) { uri ->
+        uri?.let { uploadImage(uri) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,39 +37,64 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         _binding = FragmentEditProfileBinding.bind(view)
 
         userPrefs = UserPreferences(requireContext())
+        imageRepository = ImageRepository(requireContext())
 
-        // Jelenlegi adatok betöltése
         binding.etEditName.setText(userPrefs.getUserName())
         binding.etEditEmail.setText(userPrefs.getUserEmail())
 
-        // Profilkép betöltése, ha létezik
-        val savedPath = userPrefs.getImageUri()
-        if (!savedPath.isNullOrEmpty()) {
-            val file = File(savedPath)
-            if (file.exists()) {
-                localImagePath = savedPath
-                binding.ivEditProfileImage.setImageURI(Uri.fromFile(file))
-            }
-        }
+        loadBase64Image(userPrefs.getProfileImageBase64())
 
-        // Kép választása gomb
         binding.btnChooseImage.setOnClickListener {
             pickImage.launch("image/*")
         }
 
-        // Mentés gomb
         binding.btnSaveProfile.setOnClickListener {
             val name = binding.etEditName.text.toString().ifBlank { "Ákos" }
             val email = binding.etEditEmail.text.toString().ifBlank { "balazsakos81@gmail.com" }
 
-            userPrefs.saveUser(
-                name = name,
-                email = email,
-                imageUri = localImagePath
-            )
-
+            userPrefs.saveUser(name, email, null)
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
+    }
+
+    private fun uploadImage(uri: Uri) {
+        val file = uriToFile(uri)
+        val userPrefs = UserPreferences(requireContext())
+
+        lifecycleScope.launch {
+            try {
+                val response = imageRepository.uploadProfileImage(file)
+
+                val base64 = response.profileImageBase64
+                android.util.Log.d("UploadImage", "Base64 length = ${base64?.length}")
+
+                if (!base64.isNullOrEmpty()) {
+                    userPrefs.saveProfileImageBase64(base64)
+                    loadBase64Image(base64)
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun loadBase64Image(base64: String?) {
+        if (base64.isNullOrEmpty()) return
+
+        val bytes = Base64.decode(base64, Base64.DEFAULT)
+        val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+
+        Glide.with(this)
+            .load(bitmap)
+            .into(binding.ivEditProfileImage)
+    }
+
+    private fun uriToFile(uri: Uri): File {
+        val inputStream = requireContext().contentResolver.openInputStream(uri)
+        val file = File.createTempFile("profile_upload_edit", ".jpg", requireContext().cacheDir)
+        inputStream?.use { input -> file.outputStream().use { output -> input.copyTo(output) } }
+        return file
     }
 
     override fun onDestroyView() {

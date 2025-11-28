@@ -12,16 +12,29 @@ class UserPreferences(context: Context) {
     fun getUserEmail(): String =
         prefs.getString("user_email", "balazsakos81@gmail.com") ?: "balazsakos81@gmail.com"
 
-    fun getImageUri(): String? =
-        prefs.getString("user_image", null)
+    fun saveProfileImageBase64(base64: String?) {
+        prefs.edit().putString("profile_image_base64", base64).apply()
+    }
+
+    fun getProfileImageBase64(): String? {
+        return prefs.getString("profile_image_base64", null)
+    }
+
+    fun saveProfileImageUrl(url: String?) {
+        prefs.edit().putString("profile_image_url", url).apply()
+    }
+
+    fun getProfileImageUrl(): String? {
+        return prefs.getString("profile_image_url", null)
+    }
 
     fun saveUser(name: String, email: String, imageUri: String?) {
         prefs.edit()
             .putString("user_name", name)
             .putString("user_email", email)
-            .putString("user_image", imageUri)
             .apply()
     }
+
     fun clear() {
         prefs.edit().clear().apply()
     }

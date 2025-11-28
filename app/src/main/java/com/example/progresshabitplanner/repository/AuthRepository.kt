@@ -5,13 +5,15 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.progresshabitplanner.model.AuthRequest
 import com.example.progresshabitplanner.model.AuthResponse
 import com.example.progresshabitplanner.network.RetrofitClient
 import java.io.File
 import retrofit2.Response
 
-
+@RequiresApi(Build.VERSION_CODES.O)
 class AuthRepository(context: Context) {
     private val api = RetrofitClient.getInstance(context)
 

@@ -8,6 +8,7 @@ import com.example.progresshabitplanner.model.ScheduleResponse
 import com.example.progresshabitplanner.model.CreateHabitRequest
 import com.example.progresshabitplanner.model.CreateRecurringScheduleRequest
 import com.example.progresshabitplanner.model.CreateWeekdayScheduleRequest
+import com.example.progresshabitplanner.model.UserProfileResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -76,4 +77,13 @@ interface ApiService {
     suspend fun createWeekdaySchedule(
         @Body request: CreateWeekdayScheduleRequest
     ): List<ScheduleResponse>
+
+    @Multipart
+    @POST("profile/upload-profile-image")
+    suspend fun uploadProfileImage(
+        @Part profileImage: MultipartBody.Part
+    ): UserProfileResponse
+
+    @GET("/profile")
+    suspend fun getMyProfile(): UserProfileResponse
 }
