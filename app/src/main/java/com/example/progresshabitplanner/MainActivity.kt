@@ -2,6 +2,7 @@ package com.example.progresshabitplanner
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.example.progresshabitplanner.databinding.ActivityMainBinding
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -22,17 +23,33 @@ class MainActivity : AppCompatActivity() {
 
         // NavController lekérése a NavHostFragment-ből
         val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment //
-        val navController = navHostFragment.navController // [cite: 181]
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        val bottomNav = binding.bottomNav
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when(destination.id){
+                R.id.loginFragment,
+                R.id.registerFragment -> {
+                    bottomNav.visibility = View.GONE
+                    binding.toolbar.visibility = View.GONE
+                }
+                else -> {
+                    bottomNav.visibility = View.VISIBLE
+                    binding.toolbar.visibility = View.VISIBLE
+                }
+            }
+        }
 
         // Top-level célpontok definiálása az ActionBar-hoz (pl. hogy ne jelenjen meg a 'vissza' nyíl)
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment, R.id.profileFragment) //
+            setOf(R.id.homeFragment, R.id.profileFragment)
         )
-        setupActionBarWithNavController(navController, appBarConfiguration) //
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
         // BottomNavigationView összekapcsolása a NavController-rel
-        binding.bottomNav.setupWithNavController(navController) //
+        binding.bottomNav.setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {

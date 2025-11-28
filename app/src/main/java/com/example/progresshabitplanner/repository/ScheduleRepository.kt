@@ -33,44 +33,42 @@ class ScheduleRepository(context: Context) {
         }
     }
 
-    // ÚJ METÓDUS: Összes schedule lekérése és lokális szűrés
     suspend fun getTodaySchedulesWithFilter(): List<ScheduleResponse> {
-        Log.d("ScheduleRepository", "=== FILTERED APPROACH ===")
+        Log.d("ScheduleRepository", "=== FILTERED APPROACH (CORRECTED) ===")
+
         return try {
-            // 1. Összes schedule lekérése
-            val allSchedules = api.getAllSchedules()
-            Log.d("ScheduleRepository", "Total schedules in system: ${allSchedules.size}")
+            val all = api.getAllSchedules()
 
-            // 2. Mai dátum
             val today = LocalDate.now()
-            val todayFormatted = today.format(DateTimeFormatter.ISO_LOCAL_DATE)
-            Log.d("ScheduleRepository", "Today's date for filtering: $todayFormatted")
 
-            // 3. Részletes debug minden schedule-ról
-            allSchedules.forEachIndexed { index, schedule ->
-                Log.d("ScheduleRepository", "SCHEDULE $index - ID: ${schedule.id}, Date: '${schedule.date}', Start: '${schedule.start_time}', Habit: '${schedule.habit.name}'")
+            val formatter = DateTimeFormatter.ISO_DATE_TIME
+
+            val filtered = all.filter { schedule ->
+                try {
+                    val datetime = java.time.LocalDateTime.parse(schedule.start_time, formatter)
+                    val dateOfSchedule = datetime.toLocalDate()
+
+                    val isToday = dateOfSchedule.isEqual(today)
+
+                    Log.d("ScheduleRepository", "Schedule ${schedule.id}: start=${schedule.start_time}, isToday=$isToday")
+
+                    isToday
+                } catch (e: Exception) {
+                    Log.e("ScheduleRepository", "Parsing failed for schedule ${schedule.id}: ${schedule.start_time}")
+                    false
+                }
             }
 
-            // 4. Szűrés a mai dátumra
-            val todaySchedules = allSchedules.filter { schedule ->
-                val isToday = schedule.date.contains(todayFormatted) ||
-                        schedule.start_time.contains(todayFormatted)
-                Log.d("ScheduleRepository", "Checking schedule ${schedule.id}: date='${schedule.date}', matchesToday=$isToday")
-                isToday
-            }
+            Log.d("ScheduleRepository", "Found ${filtered.size} schedules for today")
 
-            Log.d("ScheduleRepository", "Filtered result: ${todaySchedules.size} schedules for today")
+            filtered
 
-            todaySchedules.forEach { schedule ->
-                Log.d("ScheduleRepository", "FILTERED - ID: ${schedule.id}, Date: '${schedule.date}', Habit: ${schedule.habit.name}")
-            }
-
-            todaySchedules
         } catch (e: Exception) {
-            Log.e("ScheduleRepository", "Filtered approach failed: ${e.message}", e)
+            Log.e("ScheduleRepository", "Failed filtered approach: ${e.message}", e)
             emptyList()
         }
     }
+
 
     suspend fun getScheduleByDay(day: String): List<ScheduleResponse> {
         Log.d("ScheduleRepository", "Fetching schedules for day: $day")
