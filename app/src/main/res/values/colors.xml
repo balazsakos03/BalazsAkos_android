@@ -12,4 +12,7 @@
 
     <!-- Subtle divider -->
     <color name="dividerColor">#E4E4E4</color>
+
+    <!-- Logout red -->
+    <color name="red">#E53935</color>
 </resources>

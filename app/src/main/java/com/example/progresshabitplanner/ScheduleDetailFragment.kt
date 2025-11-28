@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.progresshabitplanner.databinding.FragmentScheduleDetailBinding
 import com.example.progresshabitplanner.ui.schedule.ScheduleDetailViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -79,7 +81,7 @@ class ScheduleDetailFragment : Fragment() {
 
         binding.btnDelete.setOnClickListener {
             // Show confirmation dialog before deleting
-            android.app.AlertDialog.Builder(requireContext())
+            val dialog = MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Delete Schedule")
                 .setMessage("Are you sure you want to delete this schedule?")
                 .setPositiveButton("Delete") { _, _ ->
@@ -87,6 +89,14 @@ class ScheduleDetailFragment : Fragment() {
                 }
                 .setNegativeButton("Cancel", null)
                 .show()
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+                requireContext().getColor(R.color.red)
+            )
+
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
+                requireContext().getColor(R.color.textSecondary)
+            )
         }
 
         viewModel.deleteResult.observe(viewLifecycleOwner) { result ->

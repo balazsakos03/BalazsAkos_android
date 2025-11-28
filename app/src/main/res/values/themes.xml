@@ -16,11 +16,6 @@
 
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/CustomToolbar</item>
-
-        <!-- Buttons -->
-        <item name="materialButtonStyle">@style/TurquoiseButton</item>
-
-        <!-- (CardView style törölve – nem támogatott!) -->
     </style>
 
 
@@ -36,5 +31,25 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="cornerRadius">20dp</item>
     </style>
+
+    <style name="MyMaterialDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="materialAlertDialogTheme">@style/MyMaterialDialogTheme</item>
+    </style>
+
+    <style name="MyMaterialDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/DialogDeleteButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/DialogCancelButton</item>
+    </style>
+
+    <!-- CANCEL gomb -->
+    <style name="DialogCancelButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/textSecondary</item>
+    </style>
+
+    <!-- DELETE gomb (PIROS) -->
+    <style name="DialogDeleteButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
 
 </resources>

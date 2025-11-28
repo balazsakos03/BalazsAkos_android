@@ -47,6 +47,12 @@ class ProfileFragment : Fragment() {
         binding.btnEditProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
         }
+
+        binding.btnLogout.setOnClickListener {
+            userPrefs.clear()
+            userPrefs.setLoggedIn(false)
+            findNavController().navigate(R.id.loginFragment)
+        }
     }
 
     override fun onDestroyView() {

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.progresshabitplanner.data.UserPreferences
 import com.example.progresshabitplanner.databinding.FragmentLoginBinding
 import com.example.progresshabitplanner.ui.auth.AuthViewModel
 import com.example.progresshabitplanner.utils.SessionManager
@@ -53,6 +54,11 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(), "Welcome ${authResponse.user.name}", Toast.LENGTH_LONG).show()
                 val session = SessionManager(requireContext())
                 session.saveAuthToken(authResponse.tokens.accessToken)
+
+                //smooth login
+                val userPrefs = UserPreferences(requireContext())
+                userPrefs.setLoggedIn(true)
+
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }.onFailure {
                 Toast.makeText(requireContext(), "Login failed: ${it.message}", Toast.LENGTH_LONG).show()

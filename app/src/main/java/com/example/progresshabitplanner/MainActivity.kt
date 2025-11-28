@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.progresshabitplanner.data.UserPreferences
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivityTag"
@@ -21,10 +23,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        // NavController lekérése a NavHostFragment-ből
+        //smooth login check
+        val userPrefs = UserPreferences(this)
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
+
+        if(userPrefs.isLoggedIn()){
+            navController.navigate(R.id.homeFragment)
+        }
 
         val bottomNav = binding.bottomNav
 

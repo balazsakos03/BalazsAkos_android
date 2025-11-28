@@ -22,4 +22,15 @@ class UserPreferences(context: Context) {
             .putString("user_image", imageUri)
             .apply()
     }
+    fun clear() {
+        prefs.edit().clear().apply()
+    }
+
+    fun setLoggedIn(value: Boolean) {
+        prefs.edit().putBoolean("logged_in", value).apply()
+    }
+
+    fun isLoggedIn(): Boolean {
+        return prefs.getBoolean("logged_in", false)
+    }
 }
